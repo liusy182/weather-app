@@ -46,10 +46,6 @@ class DailyForecastView: UIView {
     }
 
     func layoutView(){
-//        constrain(self) { view in
-//            view.height == DailyForecastView.HEIGHT
-//            return
-//        }
         
         constrain(forecastCells.first!) {
             $0.top == $0.superview!.top

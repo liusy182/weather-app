@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4314057A1CB8D47800E3B9FF /* HourForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431405791CB8D47800E3B9FF /* HourForecastView.swift */; };
 		4314057C1CB8E03700E3B9FF /* DayForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314057B1CB8E03700E3B9FF /* DayForecastView.swift */; };
+		4314057E1CB91E7600E3B9FF /* FlickrDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314057D1CB91E7600E3B9FF /* FlickrDatastore.swift */; };
 		431D13E11CB7E5B000434D9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D13E01CB7E5B000434D9C /* AppDelegate.swift */; };
 		431D13E31CB7E5B000434D9C /* PrettyWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D13E21CB7E5B000434D9C /* PrettyWeatherViewController.swift */; };
 		431D13E61CB7E5B000434D9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431D13E41CB7E5B000434D9C /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		431405791CB8D47800E3B9FF /* HourForecastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HourForecastView.swift; sourceTree = "<group>"; };
 		4314057B1CB8E03700E3B9FF /* DayForecastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayForecastView.swift; sourceTree = "<group>"; };
+		4314057D1CB91E7600E3B9FF /* FlickrDatastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrDatastore.swift; sourceTree = "<group>"; };
 		431D13DD1CB7E5B000434D9C /* weather-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "weather-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		431D13E01CB7E5B000434D9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		431D13E21CB7E5B000434D9C /* PrettyWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrettyWeatherViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				4314057B1CB8E03700E3B9FF /* DayForecastView.swift */,
 				43BFCDF51CB7FD4B009B8BDC /* HourlyForecastView.swift */,
 				431405791CB8D47800E3B9FF /* HourForecastView.swift */,
+				4314057D1CB91E7600E3B9FF /* FlickrDatastore.swift */,
 			);
 			path = "weather-app";
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			files = (
 				43BFCDF61CB7FD4B009B8BDC /* HourlyForecastView.swift in Sources */,
 				43BFCDF81CB7FD57009B8BDC /* DailyForecastView.swift in Sources */,
+				4314057E1CB91E7600E3B9FF /* FlickrDatastore.swift in Sources */,
 				43BFCDF41CB7FD3C009B8BDC /* CurrentWeatherView.swift in Sources */,
 				4314057A1CB8D47800E3B9FF /* HourForecastView.swift in Sources */,
 				4314057C1CB8E03700E3B9FF /* DayForecastView.swift in Sources */,

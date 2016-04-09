@@ -8,11 +8,13 @@
 
 import UIKit
 import Cartography
+import FXBlurView
 
-class PrettyWeatherViewController: UIViewController {
+class PrettyWeatherViewController: UIViewController, UIScrollViewDelegate {
     static var INSET: CGFloat { get { return 20 } }
     
     private let backgroundView = UIImageView()
+    private let overlayView = UIImageView()
     private let scrollView = UIScrollView()
     private let gradientView = UIView()
     private let currentWeatherView = CurrentWeatherView(frame: CGRectZero)
@@ -27,6 +29,17 @@ class PrettyWeatherViewController: UIViewController {
         render(UIImage(named: "DefaultImage"))
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let lat:Double = 48.8567
+        let lon:Double = 2.3508
+        
+        FlickrDatastore().retrieveImageAtLat(lat, lon: lon){ image in
+            self.render(image)
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -39,6 +52,11 @@ class PrettyWeatherViewController: UIViewController {
         backgroundView.clipsToBounds = true
         view.addSubview(backgroundView)
         
+        
+        overlayView.contentMode = .ScaleAspectFill
+        overlayView.clipsToBounds = true
+        view.addSubview(overlayView)
+        
         view.addSubview(gradientView)
         
         scrollView.showsVerticalScrollIndicator = false
@@ -46,6 +64,7 @@ class PrettyWeatherViewController: UIViewController {
         scrollView.addSubview(hourlyForecastView)
         scrollView.addSubview(daysForecastView)
         
+        scrollView.delegate = self
         view.addSubview(scrollView)
         
     }
@@ -53,6 +72,10 @@ class PrettyWeatherViewController: UIViewController {
     // MARK: layout
     func layoutView() {
         constrain(backgroundView) {
+            $0.edges ==  $0.superview!.edges
+        }
+        
+        constrain(overlayView) {
             $0.edges ==  $0.superview!.edges
         }
         
@@ -93,9 +116,13 @@ class PrettyWeatherViewController: UIViewController {
     
     // MARK: Render
     func render(image: UIImage?){
-        if let image = image {
-            backgroundView.image = image
-        }
+        
+        guard let image = image else { return }
+        backgroundView.image = image
+        overlayView.image = image.blurredImageWithRadius(
+            10, iterations: 20, tintColor: UIColor.clearColor())
+        overlayView.alpha = 0
+        
         currentWeatherView.render()
         hourlyForecastView.render()
         daysForecastView.render()
@@ -117,7 +144,14 @@ class PrettyWeatherViewController: UIViewController {
         gradientLayer.endPoint = CGPointMake(1.0, 1.0)
         gradientView.layer.mask = gradientLayer
     }
-
+    
+    // MARK: UIScrollViewDelegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        let treshold: CGFloat = CGFloat(view.frame.height)/2
+        overlayView.alpha = min (1.0, offset/treshold)
+        
+    }
 
 }
 
