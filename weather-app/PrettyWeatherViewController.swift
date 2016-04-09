@@ -14,6 +14,7 @@ class PrettyWeatherViewController: UIViewController {
     
     private let backgroundView = UIImageView()
     private let scrollView = UIScrollView()
+    private let gradientView = UIView()
     private let currentWeatherView = CurrentWeatherView(frame: CGRectZero)
     private let hourlyForecastView = HourlyForecastView(frame: CGRectZero)
     private let daysForecastView = DailyForecastView(frame: CGRectZero)
@@ -38,12 +39,15 @@ class PrettyWeatherViewController: UIViewController {
         backgroundView.clipsToBounds = true
         view.addSubview(backgroundView)
         
+        view.addSubview(gradientView)
+        
         scrollView.showsVerticalScrollIndicator = false
         scrollView.addSubview(currentWeatherView)
         scrollView.addSubview(hourlyForecastView)
         scrollView.addSubview(daysForecastView)
         
         view.addSubview(scrollView)
+        
     }
     
     // MARK: layout
@@ -80,6 +84,11 @@ class PrettyWeatherViewController: UIViewController {
             $0.bottom == $0.superview!.bottom - PrettyWeatherViewController.INSET
             $0.centerX == $0.superview!.centerX
         }
+        
+        constrain(gradientView) {
+            $0.edges ==  $0.superview!.edges
+        }
+
     }
     
     // MARK: Render
@@ -87,10 +96,26 @@ class PrettyWeatherViewController: UIViewController {
         if let image = image {
             backgroundView.image = image
         }
+        currentWeatherView.render()
+        hourlyForecastView.render()
+        daysForecastView.render()
     }
     
     // MARK: style
     func style(){
+        
+        gradientView.backgroundColor = UIColor(white: 0, alpha: 1)
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = gradientView.bounds
+        
+        let blackColor = UIColor(white: 0, alpha: 0.0)
+        let clearColor = UIColor(white: 0, alpha: 1.0)
+        
+        gradientLayer.colors = [blackColor.CGColor, clearColor.CGColor]
+        
+        gradientLayer.startPoint = CGPointMake(1.0, 0.5)
+        gradientLayer.endPoint = CGPointMake(1.0, 1.0)
+        gradientView.layer.mask = gradientLayer
     }
 
 
