@@ -21,6 +21,7 @@ class FlickrDatastore {
         let fk = FlickrKit.sharedFlickrKit()
         fk.initializeWithAPIKey(OBJECTIVE_FLICKR_API_KEY,
             sharedSecret: OBJECTIVE_FLICKR_API_SHARED_SECRET)
+        
         fk.call("flickr.photos.search",
                 args: ["group_id": GROUP_ID, "lat": "\(lat)", "lon": "\(lon)", "radius": "10"],
                 maxCacheAge: FKDUMaxAgeOneHour) {
