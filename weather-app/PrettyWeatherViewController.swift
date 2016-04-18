@@ -10,6 +10,12 @@ import UIKit
 import Cartography
 import FXBlurView
 
+extension Double {
+    func roundToInt() -> Int{
+        return Int(round(self))
+    }
+}
+
 class PrettyWeatherViewController: UIViewController, UIScrollViewDelegate {
     static var INSET: CGFloat { get { return 20 } }
     
@@ -42,7 +48,25 @@ class PrettyWeatherViewController: UIViewController, UIScrollViewDelegate {
                 image in
                 self?.render(image)
             }
+            
+            let weatherDatastore = WeatherDatastore()
+            weatherDatastore.retrieveCurrentWeatherAtLat(location.lat, lon: location.lon) {
+                currentWeatherCondition in
+                self?.renderCurrent(currentWeatherCondition)
+                return
+            }
+            weatherDatastore.retrieveHourlyForecastAtLat(location.lat, lon: location.lon) {
+                hourlyWeatherConditions in
+                self?.renderHourly(hourlyWeatherConditions)
+                return
+            }
+            weatherDatastore.retrieveDailyForecastAtLat(location.lat, lon: location.lon, dayCnt: 7) {
+                hourlyWeatherConditions in
+                self?.renderDaily(hourlyWeatherConditions)
+                return
+            }
         }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -126,10 +150,6 @@ class PrettyWeatherViewController: UIViewController, UIScrollViewDelegate {
         overlayView.image = image.blurredImageWithRadius(
             10, iterations: 20, tintColor: UIColor.clearColor())
         overlayView.alpha = 0
-        
-        currentWeatherView.render()
-        hourlyForecastView.render()
-        daysForecastView.render()
     }
     
     // MARK: style
@@ -155,6 +175,18 @@ class PrettyWeatherViewController: UIViewController, UIScrollViewDelegate {
         let treshold: CGFloat = CGFloat(view.frame.height)/2
         overlayView.alpha = min (1.0, offset/treshold)
         
+    }
+    
+    func renderCurrent(currentWeatherConditions: WeatherCondition){
+        currentWeatherView.render(currentWeatherConditions)
+    }
+    
+    func renderHourly(weatherConditions: Array<WeatherCondition>){
+        hourlyForecastView.render(weatherConditions)
+    }
+    
+    func renderDaily(weatherConditions: Array<WeatherCondition>){
+        daysForecastView.render(weatherConditions)
     }
 
 }

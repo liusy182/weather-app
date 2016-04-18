@@ -119,17 +119,29 @@ class CurrentWeatherView: UIView {
         }
     }
     
-    func render(){
-        iconLbl.attributedText =
-            WIKFontIcon.wiDaySunnyIconWithSize(20).attributedString()
+    func render(weatherCondition: WeatherCondition){
+        iconLbl.attributedText = iconStringFromIcon(weatherCondition.icon!,
+                                                    size: 20)
+        weatherLbl.text = weatherCondition.weather
         
-        weatherLbl.text = "Sunny"
-        minTempLbl.text = "4°"
-        maxTempLbl.text = "10°"
-        currentTempLbl.text = "6°"
+        var usesMetric = false
+        if let localeSystem = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem) as? Bool {
+            usesMetric = localeSystem
+        }
         
-        cityLbl.text = "London"
+        if usesMetric {
+            minTempLbl.text = "\(weatherCondition.minTempCelsius.roundToInt())°"
+            maxTempLbl.text = "\(weatherCondition.maxTempCelsius.roundToInt())°"
+            currentTempLbl.text = "\(weatherCondition.tempCelsius.roundToInt())°"
+        } else {
+            minTempLbl.text = "\(weatherCondition.minTempFahrenheit.roundToInt())°"
+            maxTempLbl.text = "\(weatherCondition.maxTempFahrenheit.roundToInt())°"
+            currentTempLbl.text = "\(weatherCondition.tempFahrenheit.roundToInt())°"
+        }
+        
+        cityLbl.text = weatherCondition.cityName ?? ""
     }
+    
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
